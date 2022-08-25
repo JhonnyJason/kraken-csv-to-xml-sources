@@ -23,13 +23,22 @@ export execute = (e) ->
     else outputPath = inputPath+".xml"
 
     csvString = fs.readFileSync(inputPath, "utf8")
-    log csvString
+    # log csvString
     result = papa.parse(csvString)
 
-    olog result.data
+    # olog result.data
 
-    result = js2xml.parse("transactions", result.data)
-    olog result
+    resultJSON = createResonableJSON(result.data)
 
+    resultXML = js2xml.parse("transaction", resultJSON)
+    # olog resultXML
+    
     return
 
+
+createResonableJSON = (data) ->
+    log "createResonableJSON"
+    ##TODO structure data to reasonable json
+    head = data.unshift()
+    olog head
+    return
