@@ -39,6 +39,7 @@ export execute = (e) ->
 createResonableJSON = (data) ->
     log "createResonableJSON"
     ##TODO structure data to reasonable json
-    head = data.unshift()
+    olog data
+    head = data.shift()
     olog head
     return
