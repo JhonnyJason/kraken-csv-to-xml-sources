@@ -22,7 +22,9 @@
     "homepage": "https://",
     "dependencies": {
         "chalk": "^4.1.2",
-        "meow": "^10.1.2"
+        "meow": "^10.1.2",
+        "js2xmlparser": "^4.0.2",
+        "papaparse": "^5.3.2"
     },
     "type": "module"
 }

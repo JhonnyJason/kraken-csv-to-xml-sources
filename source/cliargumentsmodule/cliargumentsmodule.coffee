@@ -13,14 +13,19 @@ import meow from 'meow'
 getHelpText = ->
     log "getHelpText"
     return """
-        Usage
-            $ 
+        Usage 
+            $ kraken-csv-to-xml transactions.csv
     
         Options
-            optional:
-                
+            required: arg1, --input-file, -i
+                the path to the csv file to read and translate
+
+            optional: arg2, --output-file, -i
+                the path to the xml file to be written.
+                if it is not defined we will write the output as <input-file-name>.xml 
+
         Examples
-            $  -c
+            $ kraken-csv-to-xml transactions.csv
             ...
     """
 
@@ -29,8 +34,11 @@ getOptions = ->
     return {
         importMeta: import.meta,
         flags:
-            option: #optionsname
-                type: "boolean" # or string
+            inputFile: 
+                type: "string" # or string
+                alias: "i"
+            outputFile:
+                type: "string"
                 alias: "o"
     }
 
@@ -38,15 +46,21 @@ getOptions = ->
 extractMeowed = (meowed) ->
     log "extractMeowed"
 
-    option = false # default
-    if meowed.input[0] then option = meowed.input[0]
-    if meowed.flags.option then option = true
+    inputFile = null
+    outputFile = null
 
-    return {option}
+    if meowed.input[0] then inputFile = meowed.input[0]
+    if meowed.flags.inputFile then inputFile = meowed.flags.inputFile
+
+    if meowed.input[1] then outputFile = meowed.input[1]
+    if meowed.flags.outputFile then output = meowed.flags.outputFile
+
+
+    return {inputFile, outputFile}
 
 throwErrorOnUsageFail = (extract) ->
     log "throwErrorOnUsageFail"
-    if !extract.option then throw new Error("Usag error: no option has been defined!")
+    if !extract.inputFile then throw new Error("Usag error: no input-file has been defined!")
     return
 #endregion
 

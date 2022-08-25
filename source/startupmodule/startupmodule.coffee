@@ -28,9 +28,9 @@ export cliStartup = ->
     try
         e = ca.extractArguments()
         await mp.execute(e)
-        printSuccess('All done!');
+        successLog('All done!');
     catch err
-        printError("Error!")
-        printError(err)
-        if err.stack then printError(err.stack)
+        errLog("Error!")
+        errLog(err)
+        if err.stack then errLog(err.stack)
         process.exit(-1)
