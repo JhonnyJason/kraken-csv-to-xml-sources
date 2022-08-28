@@ -29,17 +29,32 @@ export execute = (e) ->
     # olog result.data
 
     resultJSON = createResonableJSON(result.data)
-
-    resultXML = js2xml.parse("transaction", resultJSON)
-    # olog resultXML
     
+    olog resultJSON
+
+    resultXML = js2xml.parse("krakenTransactions", resultJSON)
+    olog resultXML
+    
+    fs.writeFileSync(outputPath, resultXML)
     return
 
 
 createResonableJSON = (data) ->
     log "createResonableJSON"
     ##TODO structure data to reasonable json
-    olog data
+    # olog data
     head = data.shift()
-    olog head
-    return
+    # olog head
+
+    result = {transaction:[]}
+    for d in data
+        obj = mapToObject(head, d)
+        if obj? then result.transaction.push(obj)
+    return result
+
+mapToObject = (head, data) ->
+    if head.length != data.length then return null
+    obj = {}
+    for el,idx in head
+        obj[el] = data[idx]
+    return obj
